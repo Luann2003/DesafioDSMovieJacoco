@@ -81,7 +81,6 @@ public class UserServiceTests {
 			UserEntity result = service.authenticated();
 			
 		} );
-		
 	}
 
 	@Test
@@ -92,17 +91,13 @@ public class UserServiceTests {
 		Assertions.assertNotNull(result);
 		Assertions.assertEquals(result.getUsername(), existingUsername);
 		
-		
 	}
 
 	@Test
 	public void loadUserByUsernameShouldThrowUsernameNotFoundExceptionWhenUserDoesNotExists() {
-		
-		
+	
 		Assertions.assertThrows(UsernameNotFoundException.class, () -> {
 			service.loadUserByUsername(noExistingUsername);
 		});
-		
-		
 	}
 }

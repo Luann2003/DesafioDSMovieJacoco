@@ -29,7 +29,6 @@ public class ScoreService {
 	public MovieDTO saveScore(ScoreDTO dto) {
 		
 		UserEntity user = userService.authenticated();
-		
 		MovieEntity movie = movieRepository.findById(dto.getMovieId())
 				.orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado"));		
 		

@@ -31,75 +31,60 @@ public class ScoreServiceTests {
 
 	@InjectMocks
 	private ScoreService service;
-
+	
+	@Mock
+	private ScoreRepository repository;
+	
 	@Mock
 	private UserService userService;
 	
-	@Mock
+	@InjectMocks
 	private MovieService movieService;
 
 	@Mock
-	private ScoreRepository repository;
-
-	@Mock
 	private MovieRepository movieRepository;
-
+	
 	private Long existingId, nonExistingId;
-
+	
 	private MovieEntity movie;
-
-	private ScoreEntity score;
-
-	private UserEntity user;
-
-	private MovieDTO movieDTO;
-
+	private ScoreEntity scoreEntity;
 	private ScoreDTO scoreDTO;
-
+	private UserEntity userEntity;
+	
 	@BeforeEach
 	void setup() throws Exception {
-
+		
 		existingId = 1L;
 		nonExistingId = 2L;
-
+		
 		movie = MovieFactory.createMovieEntity();
-
-		score = ScoreFactory.createScoreEntity();
-
-		user = UserFactory.createUserEntity();
-
 		scoreDTO = ScoreFactory.createScoreDTO();
-
+		scoreEntity = ScoreFactory.createScoreEntity();
+		userEntity = UserFactory.createUserEntity();
+		
 		Mockito.when(movieRepository.findById(existingId)).thenReturn(Optional.of(movie));
 		Mockito.when(movieRepository.findById(nonExistingId)).thenReturn(Optional.empty());
-
-
-		Mockito.when(repository.saveAndFlush(any())).thenReturn(score);
-
+		
+		Mockito.when(repository.saveAndFlush(any())).thenReturn(scoreEntity);
+		
 		Mockito.when(movieRepository.save(any())).thenReturn(movie);
-
-	}
+	}	
 
 	@Test
 	public void saveScoreShouldReturnMovieDTO() {
-
+		
 		MovieDTO result = service.saveScore(scoreDTO);
-
 		assertNotNull(result);
 		
-
 	}
 
 	@Test
 	public void saveScoreShouldThrowResourceNotFoundExceptionWhenNonExistingMovieId() {
 		
-//		 Mockito.when(userService.authenticated()).thenReturn(user);
-//		 
-//		 Assertions.assertThrows(ResourceNotFoundException.class, () -> {
-//			 
-//				MovieDTO result = movieService.findById(nonExistingId);
-//						
-//			});
-
+		Mockito.when(userService.authenticated()).thenReturn(userEntity);
+		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+			@SuppressWarnings("unused")
+			MovieDTO resultId = movieService.findById(nonExistingId);
+		});
 	}
 }
