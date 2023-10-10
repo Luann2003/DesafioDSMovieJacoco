@@ -66,7 +66,6 @@ public class ScoreServiceTests {
 		Mockito.when(movieRepository.findById(nonExistingId)).thenReturn(Optional.empty());
 		
 		Mockito.when(repository.saveAndFlush(any())).thenReturn(scoreEntity);
-		
 		Mockito.when(movieRepository.save(any())).thenReturn(movie);
 	}	
 
@@ -80,7 +79,7 @@ public class ScoreServiceTests {
 
 	@Test
 	public void saveScoreShouldThrowResourceNotFoundExceptionWhenNonExistingMovieId() {
-		
+			
 		Mockito.when(userService.authenticated()).thenReturn(userEntity);
 		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
 			@SuppressWarnings("unused")
